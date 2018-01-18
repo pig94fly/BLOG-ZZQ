@@ -3,7 +3,6 @@
 namespace Illuminate\Http;
 
 use ArrayObject;
-use JsonSerializable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
 use Symfony\Component\HttpFoundation\Response as BaseResponse;
@@ -11,6 +10,20 @@ use Symfony\Component\HttpFoundation\Response as BaseResponse;
 class Response extends BaseResponse
 {
     use ResponseTrait;
+
+    /**
+     * The original content of the response.
+     *
+     * @var mixed
+     */
+    public $original;
+
+    /**
+     * The exception that triggered the error response (if applicable).
+     *
+     * @var \Exception
+     */
+    public $exception;
 
     /**
      * Set the content on the response.
@@ -42,20 +55,6 @@ class Response extends BaseResponse
     }
 
     /**
-     * Determine if the given content should be turned into JSON.
-     *
-     * @param  mixed  $content
-     * @return bool
-     */
-    protected function shouldBeJson($content)
-    {
-        return $content instanceof Jsonable ||
-               $content instanceof ArrayObject ||
-               $content instanceof JsonSerializable ||
-               is_array($content);
-    }
-
-    /**
      * Morph the given content into JSON.
      *
      * @param  mixed   $content
@@ -68,5 +67,28 @@ class Response extends BaseResponse
         }
 
         return json_encode($content);
+    }
+
+    /**
+     * Determine if the given content should be turned into JSON.
+     *
+     * @param  mixed  $content
+     * @return bool
+     */
+    protected function shouldBeJson($content)
+    {
+        return $content instanceof Jsonable ||
+               $content instanceof ArrayObject ||
+               is_array($content);
+    }
+
+    /**
+     * Get the original response content.
+     *
+     * @return mixed
+     */
+    public function getOriginalContent()
+    {
+        return $this->original;
     }
 }

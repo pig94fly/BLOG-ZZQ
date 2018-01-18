@@ -2,49 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use App\Http\Model\Adminuser;
+use Illuminate\Support\Facades\Input;
+use App\Http\Model\Article;
+use App\Http\Model\Category;
+use App\Http\Model\Test\Test as Test;
 
-
+/**
+ *
+ */
 class TestController extends Controller
 {
-    public function index(){
+  public function index(){
+    // $mysql = new \mysqli("localhost","root","","blog") or die("cuowu");
+    // $sql="select * from Article limit 0,10";
+    // $result=$mysql->query($sql);
+    // while ($row = mysqli_fetch_assoc($result))
+    // {
+    // echo "question_title : {$row['cate_id']} <br>";
+    //
+    // }
 
-      $start = microtime(true);
-      $uAgent = $_SERVER['HTTP_USER_AGENT'];
-      $osPat = "mozilla|m3gate|winwap|openwave|Windows NT|Windows 3.1|95|Blackcomb|98|ME|XWindow|ubuntu|Longhorn|AIX|Linux|AmigaOS|BEOS|HP-UX|OpenBSD|FreeBSD|NetBSD|OS\/2|OSF1|SUN";
-      if(preg_match("/($osPat)/i", $uAgent ))
-      {
-        echo "来自PC访问";
-      }
-      else
-      {
-        echo "其他终端访问";
-      }
-      setcookie('user','lanlan2',time()+3600,'/');
-      $start = microtime(true);
-      $id1 = str_replace('_','/','$id');
-      $redis = new \Redis();
-      $redis ->connect('127.0.0.1',6379);
-      if ($redis->set('hello','helloword')) {
-        echo 'success: '.$result = $redis->get('hello');
-      }else {
-        echo 'failed: '.$result = $redis->get('hello');
-      }
-      echo '<br>';
-      //$redis->setex('hi',30,'nice');
-      echo $redis->get('hi');
-      $path = $_SERVER['DOCUMENT_ROOT'].'/'.$id1;
-      echo $path,$_COOKIE['user'].'<br>';
-      $cryptpath = Crypt::encryptString($path);
-      //$decrypted = Crypt::decryptString($encrypted);
-      $cryptcookie = Crypt::encryptString($_COOKIE['user']);
-      echo '<img src="http://laravel.go/1.jpg" width="40%" height="40%"/>';
-      echo '<img src="http://laravel.go/1.jpg" width="40%" height="40%"/>';
-      echo '<img src="http://laravel.go/1.jpg" width="40%" height="40%"/>';
-      echo '<img src="http://laravel.go/1.jpg" width="40%" height="40%"/>';
-      echo '<img src="http://laravel.go/1.jpg" width="40%" height="40%"/>';
-      $stop = microtime(true);
-      return $stop-$start;
-    }
+    //$mysql = Adminuser::where('id',1)->update(['username'=>'admin','password'=>'123456']);
+    //$mysql = Adminuser::find(1);
+    //echo $mysql->username;
+    //print_r($mysql);
+
+    /*$test = Adminuser::where('id',1)->get(['password']);
+    // echo $test->username;
+    // echo $test->password;
+    foreach ($test as $key => $value) {
+      echo $value->username;
+      echo $value->password;
+    }*/
+
+
+    $test = new Test(11);
+    $test->index();
+    
+      ?>
+    <html>
+    <body>
+      <p>111</p>
+
+      <script type="text/javascript">
+
+      </script>
+    </body>
+    </html>
+<?php
+  }
+
+
+
 }

@@ -47,21 +47,15 @@ class ScheduleRunCommand extends Command
      */
     public function fire()
     {
-        $eventsRan = false;
+        $events = $this->schedule->dueEvents($this->laravel);
 
-        foreach ($this->schedule->dueEvents($this->laravel) as $event) {
-            if (! $event->filtersPass($this->laravel)) {
-                continue;
-            }
-
+        foreach ($events as $event) {
             $this->line('<info>Running scheduled command:</info> '.$event->getSummaryForDisplay());
 
             $event->run($this->laravel);
-
-            $eventsRan = true;
         }
 
-        if (! $eventsRan) {
+        if (count($events) === 0) {
             $this->info('No scheduled commands are ready to run.');
         }
     }
